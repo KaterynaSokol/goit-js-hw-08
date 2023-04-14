@@ -8,32 +8,31 @@ const messageInput = form.querySelector('textarea[name="message"]');
 const objects = {};
 
 form.addEventListener('input', throttle(onFormInput, 500));
+form.addEventListener('submit', onFormSubmit);
 
-function onFormInput(evt) {
-  objects[evt.target.name] = evt.target.value;
+let objects = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+const { email, message } = form.elements;
+reloadForm();
+
+function onFormInput() {
+  objects = { email: email.value, message: message.value };
   localStorage.setItem('feedback-form-state', JSON.stringify(objects));
   console.log(objects);
 }
-
-form.addEventListener('submit', onFormSubmit);
 
 function onFormSubmit(event) {
   event.preventDefault();
   console.log('Submit');
   event.currentTarget.reset();
   localStorage.removeItem('feedback-form-state');
-  console.log(objects);
+  objects = {};
 }
 
 formFields();
 
 function formFields() {
-  const saveMessage = localStorage.getItem('feedback-form-state');
-  if (saveMessage) {
-    const parseSavedMessage = JSON.parse(saveMessage);
-    emailInput.value = parseSavedMessage.email;
-    messageInput.value = parseSavedMessage.message;
-    objects.email = parseSavedMessage.email;
-    objects.message = parseSavedMessage.message;
+  if (objects) {
+    email.value = objects.email || '';
+    message.value = objects.message || '';
   }
 }

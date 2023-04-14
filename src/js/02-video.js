@@ -8,7 +8,7 @@ const throttle = require('lodash.throttle');
 player.on(
   'timeupdate',
   throttle(function (data) {
-    let time = data.seconds;
+    let timing = data.seconds;
     console.log(data);
     try {
       localStorage.setItem('videoplayer-current-time', timing);
