@@ -9,7 +9,6 @@ form.addEventListener('submit', onFormSubmit);
 
 let objects = JSON.parse(localStorage.getItem('feedback-form-state')) || {};
 const { email, message } = form.elements;
-reloadForm();
 
 function onFormInput() {
   objects = { email: email.value, message: message.value };
